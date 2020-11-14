@@ -45,7 +45,7 @@ public class PrimaryController {
                                                 .collect(Collectors.toList());
               
                 for (String f:pathList){
-                    System.out.printf("%s"+")"+"%s" +"%d"+"\n",i++, f, PageCount.process(f));
+                    System.out.printf("%s"+")"+"%s" +"%d"+"\n",i++, f, PageCount.efficientPDFPageCount(f));
                   // System.out.println(PageCount.efficientPDFPageCount(f));
                 }
                
