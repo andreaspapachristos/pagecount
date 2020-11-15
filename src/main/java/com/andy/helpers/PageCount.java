@@ -29,12 +29,14 @@ public class PageCount {
      reader.close();
      return pages;
     }catch(IOException e){
-        e.getCause().printStackTrace();
+       // e.getCause().printStackTrace();
+        System.out.println("Possible corrupted file:" + filePath);
     }return 0;
    }
    
-   public static void printToXml(List<String> list) throws IOException{
+   public static void printToXml(List<String> list) throws IOException, ParserConfigurationException{
        try{
+           
            DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
            DocumentBuilder db = df.newDocumentBuilder();
            Document d = db.newDocument();
@@ -53,13 +55,14 @@ public class PageCount {
            d.appendChild(pages);*/
                     }
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
+          //  Source xslt = new StreamSource(new File("/home/master/NetBeansProjects/javaFxTest/src/main/java/main.xsl"));
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(d);
             StreamResult streamResult = new StreamResult(new File("/home/master/test.xml"));
             transformer.transform(domSource, streamResult);
             }
-         catch (ParserConfigurationException pce) {
-            pce.printStackTrace();
+         catch (IOException ioe) {
+            ioe.printStackTrace();
             } 
        catch (TransformerException tfe) {
             tfe.printStackTrace();
