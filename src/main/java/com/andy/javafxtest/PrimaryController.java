@@ -20,11 +20,11 @@ public class PrimaryController {
     private void switchToSecondary() throws IOException {
         App.setRoot("secondary");
     }
+  
     @FXML
     private void getDir() throws Exception{
-        
         int i =1;
-        var homeDir = System.getProperty("user.home")+ System.getProperty("file.separator") + "Downloads" ;
+        var homeDir = System.getProperty("user.home")+ System.getProperty("file.separator") ;
        DirectoryChooser dirchooser = new DirectoryChooser();
        dirchooser.setInitialDirectory(new File (homeDir));
        var ff = dirchooser.showDialog(null);
@@ -43,12 +43,12 @@ public class PrimaryController {
                                                 return p.toString();
                                                  })
                                                 .collect(Collectors.toList());
-              
-                for (String f:pathList){
+                com.andy.helpers.PageCount.printToXml(pathList);
+           /*     for (String f:pathList){
                     System.out.printf("%s"+")"+"%s" +"%d"+"\n",i++, f, PageCount.efficientPDFPageCount(f));
                   // System.out.println(PageCount.efficientPDFPageCount(f));
                 }
-               
+             */   
           }    
       }
       
