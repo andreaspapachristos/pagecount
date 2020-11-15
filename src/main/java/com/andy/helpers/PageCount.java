@@ -14,7 +14,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -48,10 +47,10 @@ public class PageCount {
                 Element dir = d.createElement("file");
                 r.appendChild(dir);
                 Element pdf = d.createElement("name");
-                pdf.appendChild(d.createTextNode(f.substring(f.lastIndexOf("/")+1)));
+                pdf.appendChild(d.createTextNode(f.substring(f.lastIndexOf(System.getProperty("file.separator"))+1)));
                 dir.appendChild(pdf);
                 Element name = d.createElement("path");
-                name.appendChild(d.createTextNode(f.substring(f.indexOf("/"), f.lastIndexOf("/")+1)));
+                name.appendChild(d.createTextNode(f.substring(f.indexOf(System.getProperty("file.separator")), f.lastIndexOf(System.getProperty("file.separator"))+1)));
                 dir.appendChild(name);
              /*   Attr ar = d.createAttribute("path");
                 ar.setValue(f.substring(f.indexOf("/"), f.lastIndexOf("/")+1));
@@ -71,7 +70,7 @@ public class PageCount {
             DOMSource domSource = new DOMSource(d);
            // Source text = new StreamSource(new File("/home/master/test.xml"));
            // transformer.transform(text, new StreamResult(new File("/home/master/output.xml")));
-            StreamResult streamResult = new StreamResult(new File("/home/master/test.xml"));
+            StreamResult streamResult = new StreamResult(new File( System.getProperty("user.home")+ System.getProperty("file.separator")+"test.html"));
             transformer.transform(domSource, streamResult);
             }
          catch (IOException ioe) {

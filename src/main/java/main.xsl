@@ -21,15 +21,17 @@
                 <table border="1">
                     <tr bgcolor="#9acd32">
                       <th style="text-align:left">File</th>
+                      <th style="text-align:left">Path</th>
                       <th style="text-align:left">Pages</th>
                     </tr>
-                    <xsl:for-each select="files/directory">
+                    <xsl:for-each select="files/file">
                     <tr>
-                      <td> <xsl:value-of select="directory"/> </td>
-                      <td> <xsl:value-of select="directory/info/@pages"/> </td>
-                    </tr>
-                    </xsl:for-each>
-                </table>
+                      <td> <xsl:value-of select="name" /> </td>
+                      <td> <xsl:value-of select="path" /> </td>
+                      <td> <xsl:value-of select="pages"/> </td>
+                    </tr>  
+                    </xsl:for-each>                
+                 </table>
             </body>
         </html>
     </xsl:template>
