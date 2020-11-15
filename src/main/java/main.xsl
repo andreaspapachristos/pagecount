@@ -25,8 +25,8 @@
                     </tr>
                     <xsl:for-each select="files/directory">
                     <tr>
-                      <td><xsl:value-of select="files/directory"/></td>
-                      <td><xsl:value-of select="files/info/@pages"/></td>
+                      <td> <xsl:value-of select="directory"/> </td>
+                      <td> <xsl:value-of select="directory/info/@pages"/> </td>
                     </tr>
                     </xsl:for-each>
                 </table>
