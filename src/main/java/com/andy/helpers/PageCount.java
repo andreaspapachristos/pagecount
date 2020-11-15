@@ -46,14 +46,20 @@ public class PageCount {
            d.appendChild(r);  
            for (String f : list){
                 Element dir = d.createElement("file");
-                dir.appendChild(d.createTextNode(f.substring(f.lastIndexOf("/")+1)));
                 r.appendChild(dir);
-                Attr ar = d.createAttribute("path");
+                Element pdf = d.createElement("name");
+                pdf.appendChild(d.createTextNode(f.substring(f.lastIndexOf("/")+1)));
+                dir.appendChild(pdf);
+                Element name = d.createElement("path");
+                name.appendChild(d.createTextNode(f.substring(f.indexOf("/"), f.lastIndexOf("/")+1)));
+                dir.appendChild(name);
+             /*   Attr ar = d.createAttribute("path");
                 ar.setValue(f.substring(f.indexOf("/"), f.lastIndexOf("/")+1));
-                dir.setAttributeNode(ar);
-                Element p = d.createElement("info");
-                r.appendChild(p);
-                Attr attr = d.createAttribute("pages");
+                dir.setAttributeNode(ar);*/
+                Element p = d.createElement("pages");
+                p.appendChild(d.createTextNode(Integer.toString(efficientPDFPageCount(f))));
+                dir.appendChild(p);
+                /*Attr attr = d.createAttribute("pages");
                 attr.setValue(Integer.toString(efficientPDFPageCount(f)));
                 p.setAttributeNode(attr);
           /*  Element pages = d.createElement(Integer.toString(efficientPDFPageCount(f)));
@@ -61,10 +67,10 @@ public class PageCount {
                     }
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Source xslt = new StreamSource(new File("/home/master/NetBeansProjects/javaFxTest/src/main/java/main.xsl"));
-            Transformer transformer = transformerFactory.newTransformer();
+            Transformer transformer = transformerFactory.newTransformer(xslt);
             DOMSource domSource = new DOMSource(d);
            // Source text = new StreamSource(new File("/home/master/test.xml"));
-          //  transformer.transform(text, new StreamResult(new File("/home/master/output.xml")));
+           // transformer.transform(text, new StreamResult(new File("/home/master/output.xml")));
             StreamResult streamResult = new StreamResult(new File("/home/master/test.xml"));
             transformer.transform(domSource, streamResult);
             }
