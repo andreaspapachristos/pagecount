@@ -1,6 +1,5 @@
 package com.andy.javafxtest;
 
-import com.andy.helpers.PageCount;
 import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
@@ -31,6 +30,7 @@ public class PrimaryController {
             try (Stream<Path> paths = Files.walk(Paths.get(ff.getAbsolutePath()))) {
 
                 List<String> pathList = paths
+                        .parallel()
                         .filter(Files::isRegularFile)
                         .filter(path -> path.toString().endsWith(".pdf"))
                         //.peek(System.out::println)
@@ -45,7 +45,7 @@ public class PrimaryController {
                 /*  for (String f:pathList){
                     System.out.printf("%s"+")"+"%s" +"%d"+"\n",i++, f, PageCount.efficientPDFPageCount(f));
                   // System.out.println(PageCount.efficientPDFPageCount(f));
-                }*/
+                }*///paths.parallel().forEach(p-> System.out.println("Thread : " + Thread.currentThread().getName() + ", value: " + p));
 
             }
         }
