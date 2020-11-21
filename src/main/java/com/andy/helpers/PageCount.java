@@ -21,9 +21,9 @@ public class PageCount {
 
     /**
      *
-     * @param file
+     * @param filePath
      * @return
-     * @throws Exception
+     * @throws java.io.IOException
      */
     public static int efficientPDFPageCount(String filePath) throws IOException {
         try {
@@ -38,7 +38,7 @@ public class PageCount {
         return 0;
     }
 
-    public static void printToXml(List<String> list) throws IOException, ParserConfigurationException {
+    public static void printToXml(List<String> list, Boolean b) throws IOException, ParserConfigurationException {
         try {
 
             DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
@@ -69,11 +69,12 @@ public class PageCount {
             }
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Source xslt = new StreamSource(new File("/home/master/NetBeansProjects/javaFxTest/src/main/java/main.xsl"));
-            Transformer transformer = transformerFactory.newTransformer(xslt);
+            Transformer transformer = (b?transformerFactory.newTransformer():transformerFactory.newTransformer(xslt));
+        
             DOMSource domSource = new DOMSource(d);
             // Source text = new StreamSource(new File("/home/master/test.xml"));
             // transformer.transform(text, new StreamResult(new File("/home/master/output.xml")));
-            StreamResult streamResult = new StreamResult(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "test.html"));
+            StreamResult streamResult = new StreamResult(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "test" + (b?".xml":".html") ));
             transformer.transform(domSource, streamResult);
         } catch (IOException ioe) {
             ioe.printStackTrace();
