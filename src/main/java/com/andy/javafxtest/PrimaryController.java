@@ -20,7 +20,7 @@ public class PrimaryController {
     private CheckBox ckb;
             
     @FXML
-    private void switchToSecondary() throws IOException {
+    private void switchToThird() throws IOException {
         App.setRoot("secondary");
     }
 
