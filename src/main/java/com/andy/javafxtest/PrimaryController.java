@@ -16,9 +16,10 @@ import javafx.stage.DirectoryChooser;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class PrimaryController {
+
     @FXML
     private CheckBox ckb;
-            
+
     @FXML
     private void switchToThird() throws IOException {
         App.setRoot("secondary");
@@ -28,47 +29,52 @@ public class PrimaryController {
     private void getDir() throws Exception {
         //private int i = 1;
         //System.out.println(this.ckb.isSelected());
+
         var homeDir = System.getProperty("user.home") + System.getProperty("file.separator");
         DirectoryChooser dirchooser = new DirectoryChooser();
         dirchooser.setInitialDirectory(new File(homeDir));
+
         var ff = dirchooser.showDialog(null);
 
         if (ff != null) {
-            
-            try (Stream<Path> paths = Files.walk(Paths.get(ff.getAbsolutePath()))) {
+            Runnable runnable = () -> {
+                try (Stream<Path> paths = Files.walk(Paths.get(ff.getAbsolutePath()))) {
 
-                List<String> pathList = paths
-                        .parallel()
-                        .filter(Files::isRegularFile)
-                        .filter(path -> path.toString().endsWith(".pdf"))
-                        //.peek(System.out::println)
-                        .map(p -> {
-                            if (Files.isDirectory(p)) {
-                                
-                                return p.toString() + "/";
-                            }
-                            return p.toString();
-                        })
-                        .collect(Collectors.toList());
-                Runnable runnable = ()->{
+                    List<String> pathList = paths
+                            .parallel()
+                            .filter(Files::isRegularFile)
+                            .filter(path -> path.toString().endsWith(".pdf"))
+                            //.peek(System.out::println)
+                            .map(p -> {
+                                if (Files.isDirectory(p)) {
+
+                                    return p.toString() + "/";
+                                }
+                                return p.toString();
+                            })
+                            .collect(Collectors.toList());
+                    // Runnable runnable = ()->{
                     try {
                         com.andy.helpers.PageCount.printToXml(pathList, ckb.isSelected());
-                        
+
                     } catch (IOException ex) {
                         Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ParserConfigurationException ex) {
                         Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                   
-};
-                    Thread thread = new Thread(runnable);
-                    thread.start();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+//;
+
                 /*  for (String f:pathList){
                     System.out.printf("%s"+")"+"%s" +"%d"+"\n",i++, f, PageCount.efficientPDFPageCount(f));
                   // System.out.println(PageCount.efficientPDFPageCount(f));
                 }*///paths.parallel().forEach(p-> System.out.println("Thread : " + Thread.currentThread().getName() + ", value: " + p));
-
-            }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
         }
 
     }
