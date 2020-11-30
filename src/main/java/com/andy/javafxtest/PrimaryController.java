@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.stage.DirectoryChooser;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -24,13 +26,21 @@ public class PrimaryController {
     private void switchToThird() throws IOException {
         App.setRoot("secondary");
     }
+    
+    @FXML
+    private TreeView<String> tree;
 
     @FXML
     private void getDir() throws Exception {
         //private int i = 1;
         //System.out.println(this.ckb.isSelected());
-
+        
+       // tree.setExpanded(true);
         var homeDir = System.getProperty("user.home") + System.getProperty("file.separator");
+        TreeItem<String> home = new TreeItem<String>(homeDir.toString());
+        home.setExpanded(true);
+        tree.setRoot(home);
+        
         DirectoryChooser dirchooser = new DirectoryChooser();
         dirchooser.setInitialDirectory(new File(homeDir));
 
@@ -53,7 +63,7 @@ public class PrimaryController {
                                 return p.toString();
                             })
                             .collect(Collectors.toList());
-                    // Runnable runnable = ()->{
+                    pathList.forEach(String-> home.getChildren().add(new TreeItem<String>(String)));
                     try {
                         com.andy.helpers.PageCount.printToXml(pathList, ckb.isSelected());
 

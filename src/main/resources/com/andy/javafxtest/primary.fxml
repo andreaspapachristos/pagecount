@@ -63,7 +63,7 @@
             </CheckBox>
         </items>
       </ToolBar>
-      <TreeView fx:id="tree" prefHeight="250.0" prefWidth="620.0" />
+      <TreeView id="tree" fx:id="tree" prefHeight="250.0" prefWidth="620.0" />
       <TextArea prefHeight="200.0" prefWidth="200.0" />
    </children>
    <padding>
