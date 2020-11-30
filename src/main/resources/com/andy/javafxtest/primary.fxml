@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToolBar?>
@@ -63,6 +64,11 @@
             </CheckBox>
         </items>
       </ToolBar>
+      <VBox>
+         <children>
+            <Label id="lb" text="Choosed Directory:" />
+         </children>
+      </VBox>
       <TreeView id="tree" fx:id="tree" prefHeight="250.0" prefWidth="620.0" />
       <TextArea prefHeight="200.0" prefWidth="200.0" />
    </children>
