@@ -3,7 +3,6 @@ package com.andy.javafxtest;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -14,9 +13,6 @@ public class SecondaryController {
     private void switchToPrimary() throws IOException {
         App.setRoot("primary");
     }
-
-
-
 
     @FXML
     private ResourceBundle resources;
@@ -30,8 +26,6 @@ public class SecondaryController {
     @FXML
     private Button secondaryButton;
 
-    
-
     @FXML
     void initialize() {
         assert txt != null : "fx:id=\"txt\" was not injected: check your FXML file 'secondary.fxml'.";
@@ -39,6 +33,3 @@ public class SecondaryController {
 
     }
 }
-   
-    
-
