@@ -32,61 +32,59 @@ public class PrimaryController {
     }
     @FXML
     private TextArea txt;
-    
+
     @FXML
-    private void setTxt(){
-        {
+    private void setTxt(TextArea txt) {
+
         PrintStream printStream = new PrintStream(new customOutputStream(txt));
         // System.setOut(printStream);
         System.setErr(printStream);
+
     }
-    }
-    
+
     @FXML
     private TreeView<String> tree;
 
     @FXML
     private void getDir() throws Exception {
-        setTxt();
+
         //private int i = 1;
         //System.out.println(this.ckb.isSelected());
-       // Node pdfico = new ImageView("img/pdf-icon-copy-min1.png");
-       // tree.setExpanded(true);
+        // Node pdfico = new ImageView("img/pdf-icon-copy-min1.png");
+        // tree.setExpanded(true);
         var homeDir = System.getProperty("user.home") + System.getProperty("file.separator");
-      /*  TreeItem<String> home = new TreeItem<String>(homeDir.toString());
+        /*  TreeItem<String> home = new TreeItem<String>(homeDir.toString());
         home.setExpanded(true);
         tree.setRoot(home);
         home.setGraphic(new ImageView("img/folder_modernist_add.png"));
-        */
+         */
         DirectoryChooser dirchooser = new DirectoryChooser();
         dirchooser.setInitialDirectory(new File(homeDir));
 
         var ff = dirchooser.showDialog(null);
 
         if (ff != null) {
-           Platform.runLater(  () -> {
-                try (Stream<Path> paths = Files.walk(Paths.get(ff.getAbsolutePath()))) {
 
-                    List<String> pathList = paths
-                            .parallel()
-                            .filter(Files::isRegularFile)
-                            .filter(path -> path.toString().endsWith(".pdf"))
-                            //.peek(System.out::println)
-                            .map(p -> {
-                                if (Files.isDirectory(p)) {
+            //   Runnable runnable = () -> {
+            try (Stream<Path> paths = Files.walk(Paths.get(ff.getAbsolutePath()))) {
 
-                                    return p.toString() + "/";
-                                }
-                                return p.toString();
-                            })
-                            .collect(Collectors.toList());
-                     TreeItem<String> home = new TreeItem<String>(ff.getCanonicalFile().toString());
-                        home.setExpanded(true);
-                        tree.setRoot(home);
-                        home.setGraphic(new ImageView("img/folder_modernist_add.png"));
-                        pathList.forEach(String->home.getChildren().add(new TreeItem<String>(String, (new ImageView("img/document_a4.png")))));
-                    //TreeItem.forEach(TreeItem-> TreeItem.setGraphic(new ImageView("")));
-      
+                List<String> pathList = paths
+                        .parallel()
+                        .filter(Files::isRegularFile)
+                        .filter(path -> path.toString().endsWith(".pdf"))
+                        //.peek(System.out::println)
+                        .map(p -> {
+                            if (Files.isDirectory(p)) {
+
+                                return p.toString() + "/";
+                            }
+                            return p.toString();
+                        })
+                        .collect(Collectors.toList());
+
+                //TreeItem.forEach(TreeItem-> TreeItem.setGraphic(new ImageView("")));
+                //  PrintStream standardOut = System.out;
+                Runnable runnable = () -> {
                     try {
                         com.andy.helpers.PageCount.printToXml(pathList, ckb.isSelected());
 
@@ -95,21 +93,31 @@ public class PrimaryController {
                     } catch (ParserConfigurationException ex) {
                         Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                };
+                Thread thread = new Thread(runnable);
 
-                } catch (IOException ex) {
-                    Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-//;
+                // Thread thread = new Thread(runnable);
+                thread.start();
+                /*           };
+                    Thread thread = new Thread(runnable);
+                    thread.start();*/
+                TreeItem<String> home = new TreeItem<String>(ff.getCanonicalFile().toString());
+                home.setExpanded(true);
+                tree.setRoot(home);
+                home.setGraphic(new ImageView("img/folder_modernist_add.png"));
+                pathList.forEach(String -> home.getChildren().add(new TreeItem<String>(String, (new ImageView("img/document_a4.png")))));
 
-                /*  for (String f:pathList){
+            } catch (IOException ex) {
+                Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+
+            /*  for (String f:pathList){
                     System.out.printf("%s"+")"+"%s" +"%d"+"\n",i++, f, PageCount.efficientPDFPageCount(f));
                   // System.out.println(PageCount.efficientPDFPageCount(f));
                 }*///paths.parallel().forEach(p-> System.out.println("Thread : " + Thread.currentThread().getName() + ", value: " + p));
-           });
-           
-           // Thread thread = new Thread(runnable);
-             //  thread.start();
-        }
+        }//);
 
     }
+
 }
