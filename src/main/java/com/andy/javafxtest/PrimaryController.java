@@ -2,6 +2,7 @@ package com.andy.javafxtest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import javafx.fxml.FXML;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.application.Platform;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
@@ -28,12 +30,24 @@ public class PrimaryController {
     private void switchToThird() throws IOException {
         App.setRoot("secondary");
     }
+    @FXML
+    private TextArea txt;
+    
+    @FXML
+    private void setTxt(){
+        {
+        PrintStream printStream = new PrintStream(new customOutputStream(txt));
+        // System.setOut(printStream);
+        System.setErr(printStream);
+    }
+    }
     
     @FXML
     private TreeView<String> tree;
 
     @FXML
     private void getDir() throws Exception {
+        setTxt();
         //private int i = 1;
         //System.out.println(this.ckb.isSelected());
        // Node pdfico = new ImageView("img/pdf-icon-copy-min1.png");
