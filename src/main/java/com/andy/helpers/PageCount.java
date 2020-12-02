@@ -67,7 +67,7 @@ public class PageCount {
                 dir.appendChild(p);
             }
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Source xslt = new StreamSource(new File("/home/master/NetBeansProjects/javaFxTest/src/main/java/main.xsl"));
+            Source xslt = new StreamSource(new File("src/main/java/main.xsl"));
             Transformer transformer = (b ? transformerFactory.newTransformer() : transformerFactory.newTransformer(xslt));
 
             DOMSource domSource = new DOMSource(d);
