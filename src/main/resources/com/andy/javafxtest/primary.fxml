@@ -12,67 +12,69 @@
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.andy.javafxtest.PrimaryController">
-   <children>
-      <ToolBar prefHeight="38.0" prefWidth="88.0">
-        <items>
-          <Button fx:id="sdir" mnemonicParsing="false" onAction="#getDir" wrapText="true">
-               <tooltip>
-                  <Tooltip text="Select Directory" />
-               </tooltip>
-               <font>
-                  <Font size="8.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../img/folder_modernist_add.png" />
-                     </image>
-                     <effect>
-                        <Blend />
-                     </effect>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#switchToThird">
-               <tooltip>
-                  <Tooltip text="About">
-                     <font>
+    <children>
+        <ToolBar prefHeight="38.0" prefWidth="88.0">
+            <items>
+                <Button fx:id="sdir" mnemonicParsing="false" onAction="#getDir" wrapText="true">
+                    <tooltip>
+                        <Tooltip text="Select Directory" />
+                    </tooltip>
+                    <font>
                         <Font size="8.0" />
-                     </font>
-                  </Tooltip>
-               </tooltip>
-               <font>
-                  <Font size="8.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../img/information.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Separator prefHeight="26.0" prefWidth="438.0" />
-            <CheckBox id="ckb" fx:id="ckb" mnemonicParsing="false" text="Export to XML">
-               <font>
-                  <Font size="8.0" />
-               </font>
-            </CheckBox>
-        </items>
-      </ToolBar>
-      <VBox>
-         <children>
-            <Label id="lb" text="Choosed Directory:" />
-         </children>
-      </VBox>
-      <TreeView id="tree" fx:id="tree" prefHeight="250.0" prefWidth="620.0" />
-      <TextArea id="txt" prefHeight="200.0" prefWidth="200.0" />
-   </children>
-   <padding>
-      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-   </padding>
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../img/folder_modernist_add.png" />
+                            </image>
+                            <effect>
+                                <Blend />
+                            </effect>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#switchToThird">
+                    <tooltip>
+                        <Tooltip text="About">
+                            <font>
+                                <Font size="8.0" />
+                            </font>
+                        </Tooltip>
+                    </tooltip>
+                    <font>
+                        <Font size="8.0" />
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../img/information.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Separator prefHeight="26.0" prefWidth="438.0" />
+                <CheckBox id="ckb" fx:id="ckb" mnemonicParsing="false" text="Export to XML">
+                    <font>
+                        <Font size="8.0" />
+                    </font>
+                </CheckBox>
+            </items>
+        </ToolBar>
+        <VBox>
+            <children>
+                <Label id="lb" text="Choosed Directory:" />
+            </children>
+        </VBox>
+        <TreeView id="tree" fx:id="tree" prefHeight="324.0" prefWidth="620.0" />
+        <StackPane />
+        <TextArea id="txt" fx:id="txt" onInputMethodTextChanged="#txtTxt" prefHeight="71.0" prefWidth="620.0" style="-fx-text-fill:red" />
+    </children>
+    <padding>
+        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+    </padding>
 </VBox>

@@ -34,7 +34,7 @@ public class PrimaryController {
     private TextArea txt;
 
     @FXML
-    private void setTxt(TextArea txt) {
+    private void txtTxt() {
 
         PrintStream printStream = new PrintStream(new customOutputStream(txt));
         // System.setOut(printStream);
@@ -47,7 +47,7 @@ public class PrimaryController {
 
     @FXML
     private void getDir() throws Exception {
-
+        txtTxt();
         //private int i = 1;
         //System.out.println(this.ckb.isSelected());
         // Node pdfico = new ImageView("img/pdf-icon-copy-min1.png");
@@ -65,59 +65,62 @@ public class PrimaryController {
 
         if (ff != null) {
 
-            //   Runnable runnable = () -> {
-            try (Stream<Path> paths = Files.walk(Paths.get(ff.getAbsolutePath()))) {
+            Platform.runLater(() -> {
+                //   Runnable runnable = () -> {
+                try (Stream<Path> paths = Files.walk(Paths.get(ff.getAbsolutePath()))) {
 
-                List<String> pathList = paths
-                        .parallel()
-                        .filter(Files::isRegularFile)
-                        .filter(path -> path.toString().endsWith(".pdf"))
-                        //.peek(System.out::println)
-                        .map(p -> {
-                            if (Files.isDirectory(p)) {
+                    List<String> pathList = paths
+                            .parallel()
+                            .filter(Files::isRegularFile)
+                            .filter(path -> path.toString().endsWith(".pdf"))
+                            //.peek(System.out::println)
+                            .map(p -> {
+                                if (Files.isDirectory(p)) {
 
-                                return p.toString() + "/";
-                            }
-                            return p.toString();
-                        })
-                        .collect(Collectors.toList());
+                                    return p.toString() + "/";
+                                }
+                                return p.toString();
+                            })
+                            .collect(Collectors.toList());
 
-                //TreeItem.forEach(TreeItem-> TreeItem.setGraphic(new ImageView("")));
-                //  PrintStream standardOut = System.out;
-                Runnable runnable = () -> {
-                    try {
-                        com.andy.helpers.PageCount.printToXml(pathList, ckb.isSelected());
+                    //TreeItem.forEach(TreeItem-> TreeItem.setGraphic(new ImageView("")));
+                    //  PrintStream standardOut = System.out;
+                    Runnable runnable = () -> {
+                        try {
 
-                    } catch (IOException ex) {
-                        Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ParserConfigurationException ex) {
-                        Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                };
-                Thread thread = new Thread(runnable);
+                            com.andy.helpers.PageCount.printToXml(pathList, ckb.isSelected());
 
-                // Thread thread = new Thread(runnable);
-                thread.start();
-                /*           };
+                        } catch (IOException ex) {
+                            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ParserConfigurationException ex) {
+                            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    };
+                    Thread thread = new Thread(runnable);
+
+                    // Thread thread = new Thread(runnable);
+                    thread.start();
+
+                    /*           };
                     Thread thread = new Thread(runnable);
                     thread.start();*/
-                TreeItem<String> home = new TreeItem<String>(ff.getCanonicalFile().toString());
-                home.setExpanded(true);
-                tree.setRoot(home);
-                home.setGraphic(new ImageView("img/folder_modernist_add.png"));
-                pathList.forEach(String -> home.getChildren().add(new TreeItem<String>(String, (new ImageView("img/document_a4.png")))));
+                    TreeItem<String> home = new TreeItem<String>(ff.getCanonicalFile().toString());
+                    home.setExpanded(true);
+                    tree.setRoot(home);
+                    home.setGraphic(new ImageView("img/folder_modernist_add.png"));
+                    pathList.forEach(String -> home.getChildren().add(new TreeItem<String>(String, (new ImageView("img/document_a4.png")))));
 
-            } catch (IOException ex) {
-                Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                } catch (IOException ex) {
+                    Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
 
-            /*  for (String f:pathList){
+                /*  for (String f:pathList){
                     System.out.printf("%s"+")"+"%s" +"%d"+"\n",i++, f, PageCount.efficientPDFPageCount(f));
                   // System.out.println(PageCount.efficientPDFPageCount(f));
                 }*///paths.parallel().forEach(p-> System.out.println("Thread : " + Thread.currentThread().getName() + ", value: " + p));
-        }//);
+            });
 
+        }
     }
-
 }
