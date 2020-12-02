@@ -19,6 +19,8 @@ import org.w3c.dom.Element;
 
 public class PageCount {
 
+    private static final String OS = System.getProperty("os.name");
+
     /**
      *
      * @param filePath
@@ -33,7 +35,7 @@ public class PageCount {
             return pages;
         } catch (IOException e) {
             // e.getCause().printStackTrace();
-            System.out.println("Possible corrupted file:" + filePath);
+            System.err.println("Possible corrupted file:" + filePath);
         }
         return 0;
     }
@@ -53,28 +55,23 @@ public class PageCount {
                 pdf.appendChild(d.createTextNode(f.substring(f.lastIndexOf(System.getProperty("file.separator")) + 1)));
                 dir.appendChild(pdf);
                 Element name = d.createElement("path");
-                name.appendChild(d.createTextNode(f.substring(f.indexOf(System.getProperty("file.separator")), f.lastIndexOf(System.getProperty("file.separator")) + 1)));
+                if (OS.matches("^Win.*")) {
+                    name.appendChild(d.createTextNode("file:\\" + f.substring(0, f.lastIndexOf(System.getProperty("file.separator")) + 1)));
+                } else {
+                    name.appendChild(d.createTextNode(f.substring(f.indexOf(System.getProperty("file.separator")), f.lastIndexOf(System.getProperty("file.separator")) + 1)));
+                }
+
                 dir.appendChild(name);
-                /*   Attr ar = d.createAttribute("path");
-                ar.setValue(f.substring(f.indexOf("/"), f.lastIndexOf("/")+1));
-                dir.setAttributeNode(ar);*/
                 Element p = d.createElement("pages");
                 p.appendChild(d.createTextNode(Integer.toString(efficientPDFPageCount(f))));
                 dir.appendChild(p);
-                /*Attr attr = d.createAttribute("pages");
-                attr.setValue(Integer.toString(efficientPDFPageCount(f)));
-                p.setAttributeNode(attr);
-          /*  Element pages = d.createElement(Integer.toString(efficientPDFPageCount(f)));
-           d.appendChild(pages);*/
             }
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Source xslt = new StreamSource(new File("/home/master/NetBeansProjects/javaFxTest/src/main/java/main.xsl"));
-            Transformer transformer = (b?transformerFactory.newTransformer():transformerFactory.newTransformer(xslt));
-        
+            Source xslt = new StreamSource(new File("src/main/java/main.xsl"));
+            Transformer transformer = (b ? transformerFactory.newTransformer() : transformerFactory.newTransformer(xslt));
+
             DOMSource domSource = new DOMSource(d);
-            // Source text = new StreamSource(new File("/home/master/test.xml"));
-            // transformer.transform(text, new StreamResult(new File("/home/master/output.xml")));
-            StreamResult streamResult = new StreamResult(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "test" + (b?".xml":".html") ));
+            StreamResult streamResult = new StreamResult(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "test" + (b ? ".xml" : ".html")));
             transformer.transform(domSource, streamResult);
         } catch (IOException ioe) {
             ioe.printStackTrace();
