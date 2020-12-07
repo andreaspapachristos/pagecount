@@ -17,6 +17,7 @@ import javafx.concurrent.Task;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
@@ -47,7 +48,7 @@ public class PrimaryController {
     }
 
     @FXML
-    private TreeView<String> tree;
+    private TextField tree;
 
     @FXML
     private void getDir() throws Exception {
@@ -59,10 +60,7 @@ public class PrimaryController {
         
  
         var ff = dirchooser.showDialog(null);
-        TreeItem<String> home = new TreeItem<String>(ff.getCanonicalFile().toString());
-                            home.setExpanded(true);
-                            tree.setRoot(home);
-                            home.setGraphic(new ImageView("img/folder_modernist_add.png"));
+        tree.setText(ff.getAbsolutePath().toString());
   Task task = new Task<Void>(){
        
         public Void call(){
@@ -113,7 +111,7 @@ public class PrimaryController {
                     //new Thread(run).start();
                     
                          
-                            pathList.forEach(String -> home.getChildren().add(new TreeItem<String>(String, (new ImageView("img/document_a4.png")))));
+                          //  pathList.forEach(String -> home.getChildren().add(new TreeItem<String>(String, (new ImageView("img/document_a4.png")))));
                 } catch (IOException ex) {
                     Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
                 }
