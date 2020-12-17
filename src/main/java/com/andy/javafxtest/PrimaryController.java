@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
@@ -60,6 +62,7 @@ public class PrimaryController {
         
  
         var ff = dirchooser.showDialog(null);
+        if(ff != null)
         tree.setText(ff.getAbsolutePath().toString());
   Task task = new Task<Void>(){
        
@@ -67,7 +70,6 @@ public class PrimaryController {
           
         if (ff != null) {
              
-        //    Platform.runLater(() -> {
                 try (Stream<Path> paths = Files.walk(Paths.get(ff.getAbsolutePath()))) {
                     
                     List<String> pathList = paths
@@ -85,41 +87,25 @@ public class PrimaryController {
                             })
                             .collect(Collectors.toList());
                     Runnable runnable = () -> {
-                        try {
-                            
+                        try {                            
                             com.andy.helpers.PageCount.printToXml(pathList, ckb.isSelected());
-
                         } catch (IOException ex) {
                             Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (ParserConfigurationException ex) {
                             Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     };
-                   // Thread thread = 
+                   
                    new Thread(runnable).start();
-                    //thread.start();
+                   
                     progress.setVisible(true);
-                //    Runnable run =()->{
-                    //    try {
-                        
-                            
-                  //      } catch (IOException ex) {
-                   //         Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
-                   //         return null;
-               //         };
-                //    };new Thread(t).start();
-                    
-                    //new Thread(run).start();
-                    
-                         
-                          //  pathList.forEach(String -> home.getChildren().add(new TreeItem<String>(String, (new ImageView("img/document_a4.png")))));
                 } catch (IOException ex) {
                     Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("no directory choosed!!");
                 }
-         //   });
                             
-
         }return null;
+        
         };
         
         };
