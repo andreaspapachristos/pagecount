@@ -74,6 +74,7 @@ public class PrimaryController {
                             .parallel()
                             .filter(Files::isRegularFile)
                             .filter(path -> path.toString().endsWith(".pdf"))
+                            .filter(path -> !path.getFileName().toString().startsWith("."))
                             //.peek(System.out::println)
                             .map(p -> {
                                 if (Files.isDirectory(p)) {
