@@ -69,7 +69,7 @@ public class PrimaryController {
                         List<String> pathList = paths
                                 .parallel()
                                 .filter(Files::isRegularFile)
-                                .filter(path -> path.toString().endsWith(".pdf"))
+                                .filter(path -> path.toString().toLowerCase.endsWith(".pdf"))
                                 .filter(path -> !path.getFileName().toString().startsWith("."))
                                 //.peek(System.out::println)
                                 .map(p -> {
